@@ -209,6 +209,10 @@ test ! -e /var/tmp/nke-image
 # OVN runs Open vSwitch on the host, and the pre-kubeadm commands no longer
 # reach a repository that could supply it, so the image has to carry it.
 command -v ovs-vsctl >/dev/null
+# It is DOCA's build, not Ubuntu's, and DOCA's metrics listener stays off.
+dpkg-query -W -f='${Status}\n' doca-openvswitch-switch | grep -Fxq 'install ok installed'
+test "$(systemctl is-enabled ovs-exporter.service)" = masked
+systemctl is-enabled openvswitch-switch.service
 
 # The local apt repo has to offer what a node installs at cluster create.
 # These are staged rather than installed, so nothing above would notice them
