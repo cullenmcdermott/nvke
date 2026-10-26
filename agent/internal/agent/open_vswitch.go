@@ -355,6 +355,7 @@ func (s *NodeAgentServer) openVSwitchPackageInstalled() bool {
 
 func (s *NodeAgentServer) ensureOpenVSwitchService() error {
 	if !s.openVSwitchPackageInstalled() {
+		slog.Error("Open vSwitch is not installed", "packages", []string{openVSwitchPackage, openVSwitchDOCAPackage})
 		return status.Errorf(codes.FailedPrecondition, "neither %s nor %s is installed", openVSwitchPackage, openVSwitchDOCAPackage)
 	}
 	if _, err := s.runOpenVSwitchCommand("systemctl", "enable", "--now", openVSwitchService); err != nil {
