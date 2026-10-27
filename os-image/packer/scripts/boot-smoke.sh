@@ -213,6 +213,9 @@ command -v ovs-vsctl >/dev/null
 dpkg-query -W -f='${Status}\n' doca-openvswitch-switch | grep -Fxq 'install ok installed'
 test "$(systemctl is-enabled ovs-exporter.service)" = masked
 systemctl is-enabled openvswitch-switch.service
+# Enabled is not running: prove the daemons started and answer on their socket.
+systemctl is-active openvswitch-switch.service
+sudo ovs-vsctl show >/dev/null
 
 # The local apt repo has to offer what a node installs at cluster create.
 # These are staged rather than installed, so nothing above would notice them

@@ -39,7 +39,10 @@ from the Ubuntu archive at bake time. For DOCA 3.5.0:
 | `libibverbs1`, `ibverbs-providers` | DOCA's rdma-core, which replaces Ubuntu's |
 
 Not `doca-networking` or `doca-ofed`: those pull in DOCA's kernel modules,
-which replace the inbox mlx5 drivers.
+which replace the inbox mlx5 drivers. Kernel-mode OVS needs only the userspace
+packages above, and the nodes depend on the inbox drivers: on GB200 the
+BlueField-3 runs on them, and swapping them out from under a node has already
+cost it all host networking.
 
 DOCA builds each Ubuntu release separately, so the lock has one row per
 package, release (24.04 and 26.04) and architecture. Both releases pin the same
